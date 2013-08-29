@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationalPlaces.Models", "NationalPlaces.Models\NationalPlaces.Models.csproj", "{35530FD1-4DDF-4930-A294-2C6EE59534C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationalPlaces.Services", "NationalPlaces.Services\NationalPlaces.Services.csproj", "{017FED33-174F-40FE-AB72-2463C24E027E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationalPlaces.DataLayer", "NationalPlaces.DataLayer\NationalPlaces.DataLayer.csproj", "{2B618E8A-4321-4003-BF70-6723F75372F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35530FD1-4DDF-4930-A294-2C6EE59534C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35530FD1-4DDF-4930-A294-2C6EE59534C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35530FD1-4DDF-4930-A294-2C6EE59534C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35530FD1-4DDF-4930-A294-2C6EE59534C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{017FED33-174F-40FE-AB72-2463C24E027E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{017FED33-174F-40FE-AB72-2463C24E027E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{017FED33-174F-40FE-AB72-2463C24E027E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{017FED33-174F-40FE-AB72-2463C24E027E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B618E8A-4321-4003-BF70-6723F75372F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B618E8A-4321-4003-BF70-6723F75372F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B618E8A-4321-4003-BF70-6723F75372F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B618E8A-4321-4003-BF70-6723F75372F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
