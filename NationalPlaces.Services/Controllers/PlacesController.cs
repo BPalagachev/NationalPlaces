@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.ValueProviders;
 using System.Web.Providers.Entities;
@@ -53,7 +54,7 @@ namespace NationalPlaces.Services.Controllers
         [ActionName("visit")]
         [HttpPost]
         public HttpResponseMessage VisitPlace([ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey,
-            double longitude, double latitude)
+            VititPlaceDto placeToVisit)
         {
             var operationResult = this.PerformOperationAndHandleExceptions(() =>
             {
@@ -64,10 +65,19 @@ namespace NationalPlaces.Services.Controllers
                 {
                     throw new InvalidOperationException("User or password is incorrect.");
                 }
+                if (placeToVisit == null)
+                {
+                    throw new InvalidOperationException("Token Validation failed");
+
+                }
+
+                double longitude = 0;
+                double latitude = 0;
+                DecryptCoordinateToken(placeToVisit.CoordsToken, user.AuthCode, ref longitude, ref latitude);
 
                 // parse coordinates
                 // get places by coordinates
-                var avaiablePlaces = GetNearPlaces(longitude, latitude).Select(x=>x.PlaceIndentifierNumber);
+                var avaiablePlaces = GetNearPlaces(longitude, latitude).Select(x => x.PlaceIndentifierNumber);
                 if (avaiablePlaces == null)
                 {
                     throw new InvalidOperationException("There are no places near by.");
@@ -108,7 +118,7 @@ namespace NationalPlaces.Services.Controllers
                 {
                     throw new InvalidOperationException("There are no places near by.");
                 }
-                
+
                 var placeToComment = avaiablePlaces.Where(x => x.PlaceIndentifierNumber == comment.PlaceIndentifierNumber).FirstOrDefault();
                 if (placeToComment == null)
                 {
@@ -131,16 +141,38 @@ namespace NationalPlaces.Services.Controllers
         }
 
 
-
         private IEnumerable<NationalPlaces.Models.Place> GetNearPlaces(double longitude, double latitude)
         {
             var scale = Math.PI / 180;
             var earthRadius = 6371;
 
-            var allPlaces = NationalPlacesDAL.Get<NationalPlaces.Models.Place>("PlaceInformation")
+            var allPlaces = NationalPlacesDAL.Get<NationalPlaces.Models.Place>("PlaceInformation").ToList()
                 .Where(x => Math.Acos(Math.Sin(x.Latitude * scale) * Math.Sin(latitude * scale)
-                    + Math.Cos(x.Latitude * scale) * Math.Cos(latitude * scale) * Math.Cos(x.Longitude*scale - longitude*scale)) * earthRadius < 3);
+                    + Math.Cos(x.Latitude * scale) * Math.Cos(latitude * scale) * Math.Cos(x.Longitude * scale - longitude * scale)) * earthRadius < 3);
             return allPlaces;
+        }
+
+        private static void DecryptCoordinateToken(string token, string userSha1, ref double longitude, ref double latitude)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < token.Length; i++)
+            {
+                var currentChar = token[i] ^ userSha1[i % userSha1.Length];
+                sb.Append((char)currentChar);
+            }
+
+            var coortinates = sb.ToString().Split(';');
+            longitude = 0;
+            latitude = 0;
+
+            var longitudeParsed = double.TryParse(coortinates[1], out longitude);
+            var latitudeParse = double.TryParse(coortinates[0], out latitude);
+
+            if (!longitudeParsed || !latitudeParse)
+            {
+                throw new ArgumentException("Coordinates not excepted");
+            }
         }
 
     }

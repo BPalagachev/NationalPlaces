@@ -183,6 +183,7 @@
     <Compile Include="DataTransferObjects\UserLoggedInDto.cs" />
     <Compile Include="DataTransferObjects\UserLogInDto.cs" />
     <Compile Include="DataTransferObjects\UserRegisterDto.cs" />
+    <Compile Include="DataTransferObjects\VititPlaceDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
