@@ -38,6 +38,11 @@ namespace NationalPlaces.Models
 
         [DataMember]
         [Required]
+        public int Group { get; set; }
+
+
+        [DataMember]
+        [Required]
         public double Longitude { get; set; }
 
         [DataMember]

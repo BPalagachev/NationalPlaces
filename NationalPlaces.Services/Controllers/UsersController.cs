@@ -71,7 +71,7 @@ namespace NationalPlaces.Services.Controllers
                             x.UserName == loginInformation.UserName.ToLower()
                             && x.AuthCode == loginInformation.AuthCode);
 
-                    if (loginInformation == null)
+                    if (loginInformation == null || existingUser == null)
                     {
                         throw new InvalidOperationException("User or password is incorrent");
                     }

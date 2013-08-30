@@ -17,11 +17,15 @@ namespace NationalPlaces.Services.Controllers
     {
 
         [HttpGet]
-        public IEnumerable<NationalPlaces.Models.Place> AllPlaces([ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        [ActionName("getall")]
+        public IEnumerable<PlaceDto> AllPlaces()
         {
             var operationResult = this.PerformOperationAndHandleExceptions(() =>
             {
-                var allPlaces = NationalPlacesDAL.Get<NationalPlaces.Models.Place>("PlaceInformation");
+                var allPlaces = NationalPlacesDAL
+                    .Get<NationalPlaces.Models.Place>("PlaceInformation")
+                    .Select(PlaceDto.FromPlace);
+
                 return allPlaces;
 
             });
