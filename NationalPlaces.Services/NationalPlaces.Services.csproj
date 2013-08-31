@@ -181,6 +181,7 @@
     <Compile Include="DataTransferObjects\CommentDto.cs" />
     <Compile Include="DataTransferObjects\CommentPlace.cs" />
     <Compile Include="DataTransferObjects\PlaceByUserDto.cs" />
+    <Compile Include="DataTransferObjects\PlaceDetails.cs" />
     <Compile Include="DataTransferObjects\PlaceDto.cs" />
     <Compile Include="DataTransferObjects\UserLoggedInDto.cs" />
     <Compile Include="DataTransferObjects\UserLogInDto.cs" />

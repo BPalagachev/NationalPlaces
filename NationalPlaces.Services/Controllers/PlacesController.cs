@@ -33,6 +33,30 @@ namespace NationalPlaces.Services.Controllers
             return operationResult;
         }
 
+        [ActionName("details")]
+        [HttpGet]
+        public PlaceDetailsDto Details(int identifier)
+        {
+            var operationResult = this.PerformOperationAndHandleExceptions(() =>
+            {
+                var place = NationalPlacesDAL
+                    .Get<NationalPlaces.Models.Place>("PlaceInformation")
+                    .Where(x => x.PlaceIndentifierNumber == identifier)
+                    .Select(PlaceDetailsDto.FromPlace)
+                    .FirstOrDefault();
+
+                if (place == null )
+                {
+                    throw new ArgumentException("This place is not registered in the database");
+                }
+
+                return place;
+
+            });
+
+            return operationResult;
+        }
+
         [ActionName("myplaces")]
         [HttpGet]
         public IEnumerable<int> MyPlaces([ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
@@ -82,7 +106,7 @@ namespace NationalPlaces.Services.Controllers
                 // parse coordinates
                 // get places by coordinates
                 var avaiablePlaces = GetNearPlaces(longitude, latitude).Select(x => x.PlaceIndentifierNumber);
-                if (avaiablePlaces == null)
+                if (avaiablePlaces == null || avaiablePlaces.Count() == 0)
                 {
                     throw new InvalidOperationException("There are no places near by.");
                 }
@@ -102,8 +126,7 @@ namespace NationalPlaces.Services.Controllers
 
         [ActionName("comment")]
         [HttpPost]
-        public HttpResponseMessage CommentPlace([ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey,
-            double longitude, double latitude, CommentPlace comment)
+        public HttpResponseMessage CommentPlace([ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey, CommentPlace comment)
         {
             var operationResult = this.PerformOperationAndHandleExceptions(() =>
             {
@@ -115,10 +138,11 @@ namespace NationalPlaces.Services.Controllers
                     throw new InvalidOperationException("User or password is incorrect.");
                 }
 
-                // parse coordinates
-                // get places by coordinates
+                double longitude = 0;
+                double latitude = 0;
+                DecryptCoordinateToken(comment.LocationToken, user.AuthCode, ref longitude, ref latitude);
                 var avaiablePlaces = GetNearPlaces(longitude, latitude);
-                if (avaiablePlaces == null)
+                if (avaiablePlaces == null || avaiablePlaces.Count() == 0)
                 {
                     throw new InvalidOperationException("There are no places near by.");
                 }

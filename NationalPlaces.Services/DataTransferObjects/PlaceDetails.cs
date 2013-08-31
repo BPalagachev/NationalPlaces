@@ -9,20 +9,25 @@ using System.Web;
 namespace NationalPlaces.Services.DataTransferObjects
 {
     [DataContract]
-    public class PlaceDto
+    public class PlaceDetailsDto
     {
-        public static Expression<Func<Place, PlaceDto>> FromPlace
+        public static Expression<Func<Place, PlaceDetailsDto>> FromPlace
         {
             get
             {
-                return place => new PlaceDto()
+                return place => new PlaceDetailsDto()
                 {
                     Name = place.Name,
                     Url = place.Url,
                     PlaceIndentifierNumber = place.PlaceIndentifierNumber,
-                    Group =place.Group,
+                    Group = place.Group,
                     Longitude = place.Longitude,
                     Latitude = place.Latitude,
+                    Comments = place.Comments.Select(com => new CommentDto()
+                    {
+                        Author = com.UserNickName,
+                        Content = com.Text
+                    })
                 };
             }
 
@@ -46,5 +51,8 @@ namespace NationalPlaces.Services.DataTransferObjects
 
         [DataMember(Name = "latitude")]
         public double Latitude { get; set; }
+
+        [DataMember(Name = "Comments")]
+        public IEnumerable<CommentDto> Comments { get; set; }
     }
 }
