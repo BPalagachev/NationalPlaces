@@ -57,6 +57,49 @@ namespace NationalPlaces.Services.Controllers
             return operationResult;
         }
 
+        [ActionName("getcomments")]
+        [HttpGet]
+        public IEnumerable<CommentDto> GetComments(
+            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey,
+            int identifier)
+        {
+            var operationResult = this.PerformOperationAndHandleExceptions(() =>
+            {
+                var user = NationalPlacesDAL.Get<NationalPlaces.Models.User>("UsersInformation")
+                .FirstOrDefault(x => x.SessionKey == sessionKey);
+                if (user == null)
+                {
+                    throw new InvalidOperationException("You need to be logged in to view comments.");
+                }
+
+                var place = NationalPlacesDAL
+                    .Get<NationalPlaces.Models.Place>("PlaceInformation")
+                    .Where(x => x.PlaceIndentifierNumber == identifier)
+                    .FirstOrDefault();
+
+                if (place == null)
+                {
+                    throw new ArgumentException("place not found");
+                }
+
+                List<CommentDto> comments = new List<CommentDto>();
+
+                foreach (var comment in place.Comments)
+                {
+                    comments.Add(new CommentDto()
+                    {
+                        Author = comment.UserNickName,
+                        Content = comment.Text
+                    });
+                }
+
+                return comments;
+
+            });
+
+            return operationResult;
+        }
+
         [ActionName("myplaces")]
         [HttpGet]
         public IEnumerable<int> MyPlaces([ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)

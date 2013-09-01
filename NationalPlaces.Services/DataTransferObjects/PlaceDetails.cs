@@ -23,11 +23,6 @@ namespace NationalPlaces.Services.DataTransferObjects
                     Group = place.Group,
                     Longitude = place.Longitude,
                     Latitude = place.Latitude,
-                    Comments = place.Comments.Select(com => new CommentDto()
-                    {
-                        Author = com.UserNickName,
-                        Content = com.Text
-                    })
                 };
             }
 
@@ -51,8 +46,5 @@ namespace NationalPlaces.Services.DataTransferObjects
 
         [DataMember(Name = "latitude")]
         public double Latitude { get; set; }
-
-        [DataMember(Name = "Comments")]
-        public IEnumerable<CommentDto> Comments { get; set; }
     }
 }
