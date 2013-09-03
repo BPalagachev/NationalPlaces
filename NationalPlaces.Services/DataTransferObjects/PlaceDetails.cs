@@ -23,6 +23,7 @@ namespace NationalPlaces.Services.DataTransferObjects
                     Group = place.Group,
                     Longitude = place.Longitude,
                     Latitude = place.Latitude,
+                    Information = place.Information
                 };
             }
 
@@ -46,5 +47,8 @@ namespace NationalPlaces.Services.DataTransferObjects
 
         [DataMember(Name = "latitude")]
         public double Latitude { get; set; }
+
+        [DataMember(Name = "information")]
+        public string Information { get; set; }
     }
 }

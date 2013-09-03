@@ -22,7 +22,7 @@ namespace NationalPlaces.Services.DataTransferObjects
                     PlaceIndentifierNumber = place.PlaceIndentifierNumber,
                     Group =place.Group,
                     Longitude = place.Longitude,
-                    Latitude = place.Latitude,
+                    Latitude = place.Latitude
                 };
             }
 

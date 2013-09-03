@@ -92,6 +92,7 @@ namespace NationalPlaces.Services.Controllers
                         Content = comment.Text
                     });
                 }
+                comments.Reverse();
 
                 return comments;
 

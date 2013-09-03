@@ -50,6 +50,12 @@ namespace NationalPlaces.Models
         public double Latitude { get; set; }
 
         [DataMember]
+        [Required]
+        public string Information { get; set; }
+
+
+
+        [DataMember]
         public virtual ICollection<Comment> Comments
         {
             get
