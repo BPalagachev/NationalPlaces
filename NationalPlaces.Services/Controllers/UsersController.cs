@@ -20,7 +20,6 @@ namespace NationalPlaces.Services.Controllers
         private static Random rand = new Random();
         private const int SessionKeyLength = 50;
 
-
         [ActionName("register")]
         [HttpPost]
         public HttpResponseMessage Register(UserRegisterDto registerDto)
@@ -50,8 +49,8 @@ namespace NationalPlaces.Services.Controllers
                 }
                 else
                 {
-                    var errors = String.Join(" ", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
-                    var errorMessage = string.Format("User input validation failed. Errors: {0}", errors);
+                    var errors = String.Join("\n ", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
+                    var errorMessage = string.Format("User input was not validated:\n {0}", errors);
                     throw new ArgumentException(errorMessage);
                 }
             });
@@ -89,8 +88,8 @@ namespace NationalPlaces.Services.Controllers
                 }
                 else
                 {
-                    var errors = String.Join(" ", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
-                    var errorMessage = string.Format("User input validation failed. Errors: {0}", errors);
+                    var errors = String.Join("\n ", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
+                    var errorMessage = string.Format("User input was not validated:\n {0}", errors);
                     throw new ArgumentException(errorMessage);
                 }
             });
