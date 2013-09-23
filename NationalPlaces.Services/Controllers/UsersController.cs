@@ -29,7 +29,8 @@ namespace NationalPlaces.Services.Controllers
                 if (ModelState.IsValid && registerDto != null)
                 {
                     var existingUser = NationalPlacesDAL.Get<User>("UsersInformation")
-                        .FirstOrDefault(x => x.UserName == registerDto.UserName.ToLower());
+                        .FirstOrDefault(x => x.UserName == registerDto.UserName.ToLower() ||
+                                             x.NickName.ToLower() == registerDto.NickName.ToLower());
                     if (existingUser != null)
                     {
                         throw new InvalidOperationException("User name or nickname is already taken");

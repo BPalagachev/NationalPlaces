@@ -11,5 +11,7 @@ namespace NationalPlaces.Services.DataTransferObjects
     {
         [DataMember(Name="coordstoken")]
         public string CoordsToken { get; set; }
+        [DataMember(Name="placeId")]
+        public int PlaceId { get; set; }
     }
 }

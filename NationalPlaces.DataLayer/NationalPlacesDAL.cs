@@ -11,14 +11,14 @@ namespace NationalPlaces.DataLayer
 {
     public static class NationalPlacesDAL
     {
-        // "mongodb://appharbor_63e7602d-a1aa-4c72-b814-f9ebcfea0188:3m3lj6ik9lg9d8qiqd2gq2qem8@ds043168.mongolab.com:43168/appharbor_63e7602d-a1aa-4c72-b814-f9ebcfea0188";
-        // mongodb://localhost
-        private static string connectionString = "mongodb://localhost";
+        //private static string connectionString = "mongodb://localhost";
+        private static string connectionString = @"mongodb://appharbor_63e7602d-a1aa-4c72-b814-f9ebcfea0188:3m3lj6ik9lg9d8qiqd2gq2qem8@ds043168.mongolab.com:43168/appharbor_63e7602d-a1aa-4c72-b814-f9ebcfea0188";
+
         private static MongoClient client = new MongoClient(connectionString);
         private static MongoServer  server = client.GetServer();
-        private static MongoDatabase database = server.GetDatabase("placesDb");
 
-        //appharbor_63e7602d-a1aa-4c72-b814-f9ebcfea0188
+        //private static MongoDatabase database = server.GetDatabase("placesDb");
+        private static MongoDatabase database = server.GetDatabase("appharbor_63e7602d-a1aa-4c72-b814-f9ebcfea0188");
 
         public static IQueryable<T> Get<T>(string collectionName)
         {

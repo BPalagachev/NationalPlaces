@@ -86,11 +86,15 @@ namespace NationalPlaces.Services.Controllers
 
                 foreach (var comment in place.Comments)
                 {
-                    comments.Add(new CommentDto()
+                    if (comment.UserNickName == user.NickName)
                     {
-                        Author = comment.UserNickName,
-                        Content = comment.Text
-                    });
+                        comments.Add(new CommentDto()
+                        {
+                            Author = comment.UserNickName,
+                            Content = comment.Text
+                        });
+                    }
+                    
                 }
                 comments.Reverse();
 
@@ -149,16 +153,16 @@ namespace NationalPlaces.Services.Controllers
 
                 // parse coordinates
                 // get places by coordinates
-                var avaiablePlaces = GetNearPlaces(longitude, latitude).Select(x => x.PlaceIndentifierNumber);
-                if (avaiablePlaces == null || avaiablePlaces.Count() == 0)
+                var placeToVIsit = GetNearPlaces(longitude, latitude)
+                                        .Where(x=>x.PlaceIndentifierNumber==placeToVisit.PlaceId)
+                                        .Select(x => x.PlaceIndentifierNumber)
+                                        .FirstOrDefault();
+                if (placeToVIsit == 0)
                 {
-                    throw new InvalidOperationException("There are no places near by.");
+                    throw new InvalidOperationException("This place is not near you!");
                 }
 
-                foreach (var place in avaiablePlaces)
-                {
-                    user.VisitedPlaces.Add(place);
-                }
+                user.VisitedPlaces.Add(placeToVIsit);
 
                 NationalPlacesDAL.SaveEntity(user, "UsersInformation");
 
